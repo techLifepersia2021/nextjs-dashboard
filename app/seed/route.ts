@@ -2,8 +2,15 @@ import bcrypt from 'bcrypt';
 import postgres from 'postgres';
 import { invoices, customers, revenue, users } from '../lib/placeholder-data';
 
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+console.log('POSTGRES_URL exists:', !!process.env.POSTGRES_URL);
+console.log(
+  'POSTGRES_URL_NON_POOLING exists:',
+  !!process.env.POSTGRES_URL_NON_POOLING
+);
 
+const sql = postgres(process.env.POSTGRES_URL_NON_POOLING!, {
+  ssl: 'require',
+});
 async function seedUsers() {
   await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
   await sql`
